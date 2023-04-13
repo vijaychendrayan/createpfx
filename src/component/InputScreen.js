@@ -1,11 +1,9 @@
-// Code to generate the PFX file and download the file -- Start
-import * as pkijs from 'pkijs';
-import * as pvutils from 'pvutils';
-// Code to generate the PFX file and download the file -- End
-
 import { useState } from "react";
 
 // Code to generate the PFX file and download the file -- Start
+import * as pkijs from 'pkijs';
+import * as pvutils from 'pvutils';
+
 function trimMessage(str){
     return (str.replaceAll(/.*----.*----/g,"").replace(/(\r\n|\n|\r)/gm, ""))
 }
@@ -27,17 +25,17 @@ function saveFile(result) {
 }
 
 async function generateCertificatePFX(key,cert,pwd){
-    console.log('-----inside generateCertificate------')
-    console.log('Key      : ',key);
-    console.log('Cert     : ',cert);
-    console.log('Password : ',pwd)
+    // console.log('-----inside generateCertificate------')
+    // console.log('Key      : ',key);
+    // console.log('Cert     : ',cert);
+    // console.log('Password : ',pwd)
     // const certificateBASE64 = "MIICajCCAcwCFDynpN5Ssw9J1++fMnasb87rfJrgMAoGCCqGSM49BAMCMHQxCzAJBgNVBAYTAklOMRAwDgYDVQQIDAdHVUpBUkFUMQ8wDQYDVQQHDAZWQUxTQUQxCzAJBgNVBAoMAlBQMQswCQYDVQQLDAJQUDELMAkGA1UEAwwCUFAxGzAZBgkqhkiG9w0BCQEWDHBwQGdtYWlsLmNvbTAeFw0yMzA0MDQwOTU4MzZaFw0yMzA1MDQwOTU4MzZaMHQxCzAJBgNVBAYTAklOMRAwDgYDVQQIDAdHVUpBUkFUMQ8wDQYDVQQHDAZWQUxTQUQxCzAJBgNVBAoMAkFQMQswCQYDVQQLDAJBUDELMAkGA1UEAwwCQVAxGzAZBgkqhkiG9w0BCQEWDGFwQGdtYWlsLmNvbTCBmzAQBgcqhkjOPQIBBgUrgQQAIwOBhgAEAAuJXGrhINQZRFVKeCTw1Wu2ote3HYXfTpuscRSicZjFRJchjTVDecQEAdiURmwKO4oBtQTfnjLWn1iw8AjNu58/AePKbpoHPO/0BH/5IeZ+XhdQELS2QbyQb8C8ZIzOayAHZkyu3Osuyo63j2/JFHI7k22CKjUeTuo+lWdvag9cmX4PMAoGCCqGSM49BAMCA4GLADCBhwJBVCgEy9cJdHpmbgQSUdutgoARyWxDgOR9RXxeYcvoQbq8epUpwc6nnJfQpgGQuhhUNizEaTedMA1vGNs5QRu3fBwCQgGtXm7H/YEbv+SbmRZLS/EsNqKCJKqqmNIjKItrvsmoktHELDg+ciS67iGEdqKH1RW5a/m0Vr9L5u8Eq6U4WZEa0A=="
     // const privateKeyBASE64 = "MIHcAgEBBEIApLmnlJFKswUbZzxrVfT5YcUHt+uISytpBXn+L9KJCSQjv8AP/heJxoJoX6ghqpXmBcaj6MEU1yPBH7vZjAcPr+igBwYFK4EEACOhgYkDgYYABAALiVxq4SDUGURVSngk8NVrtqLXtx2F306brHEUonGYxUSXIY01Q3nEBAHYlEZsCjuKAbUE354y1p9YsPAIzbufPwHjym6aBzzv9AR/+SHmfl4XUBC0tkG8kG/AvGSMzmsgB2ZMrtzrLsqOt49vyRRyO5Ntgio1Hk7qPpVnb2oPXJl+Dw=="
     // const password = 'welogical'
     const certificateBASE64 = trimMessage(cert)
-    console.log(certificateBASE64);
+    // console.log(certificateBASE64);
     const privateKeyBASE64 = trimMessage(key)
-    console.log(privateKeyBASE64)
+    // console.log(privateKeyBASE64)
     const password = pwd
      //#region Create simplified structires for certificate and private key
      const certRaw = pvutils.stringToArrayBuffer(pvutils.fromBase64(certificateBASE64));
@@ -101,7 +99,7 @@ async function generateCertificatePFX(key,cert,pwd){
      });
      //#endregion
      //#region Save encoded data
-     console.log(pkcs12.toString())
+     //  console.log(pkcs12.toString())
      return pkcs12.toSchema().toBER(false);
      //#endregion
 }
@@ -113,10 +111,10 @@ function InputScreen(){
     const [pwd, setPwd] = useState('');
 
     async function createPFXFile(){
-        console.log('---CreatePFXFile----')
-        console.log('Key - ',{key})
-        console.log('Certificate - ', {cert})
-        console.log('Password : ', {pwd})
+        // console.log('---CreatePFXFile----')
+        // console.log('Key - ',{key})
+        // console.log('Certificate - ', {cert})
+        // console.log('Password : ', {pwd})
         
         // Code to generate the PFX file and download the file -- Start
         saveFile(await generateCertificatePFX(key,cert,pwd))
@@ -132,8 +130,7 @@ function InputScreen(){
                 <textarea id="2" name="certificate" rows="10" cols="100" value={cert} onChange={e => setCert(e.target.value)} />
                 <h1> password</h1>
                 <input id="3" name="password" value={pwd} onChange={e => setPwd(e.target.value)} />
-            </div>
-            
+            </div>            
             <div>
             <button onClick={createPFXFile}>Generate PFX file</button>
             </div>
