@@ -25,7 +25,7 @@ function destroyClickedElement(event) {
 function saveFile(result) {
     const pkcs12AsBlob = new Blob([result], { type: "application/x-pkcs12" });
     const downloadLink = document.createElement("a");
-    downloadLink.download = "pkijs_pkcs12.p12";
+    downloadLink.download = "certificate.p12";
     downloadLink.innerHTML = "Download File";
     downloadLink.href = window.URL.createObjectURL(pkcs12AsBlob);
     downloadLink.onclick = destroyClickedElement;
