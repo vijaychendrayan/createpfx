@@ -1,17 +1,9 @@
-// import * as asn1js from 'https://unpkg.com/asn1js@latest?module';
-// import * as pvtsutils from 'https://unpkg.com/pvtsutils@latest?module';
-// import * as pkijs from '../pkijs.es.js';
-// import * as pvutils from 'https://unpkg.com/pvutils?module';
-
-// import * as asn1js from 'asn1js';
-// import * as pvtsutils from 'pvtsutils';
+// Code to generate the PFX file and download the file -- Start
 import * as pkijs from 'pkijs';
 import * as pvutils from 'pvutils';
-
+// Code to generate the PFX file and download the file -- End
 
 import { useState } from "react";
-
-
 
 // Code to generate the PFX file and download the file -- Start
 function trimMessage(str){
@@ -130,8 +122,6 @@ function InputScreen(){
         saveFile(await generateCertificatePFX(key,cert,pwd))
         // Code to generate the PFX file and download the file -- End
     }
-
-    
 
     return(
         <div>
