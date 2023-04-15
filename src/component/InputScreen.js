@@ -43,6 +43,10 @@ async function generateCertificatePFX(key,cert,pwd){
      const pkcs8Raw = pvutils.stringToArrayBuffer(pvutils.fromBase64(privateKeyBASE64));
     //  const pkcs8Simpl = pkijs.PrivateKeyInfo.fromBER(pkcs8Raw);
      const pkcs8Simpl = pkijs.ECPrivateKey.fromBER(pkcs8Raw);
+     console.log(pkcs8Simpl)
+    //  const pvtJSON = pkcs8Simpl.toJSON()
+     console.log('Private Key : ',pkcs8Simpl.privateKey);
+     console.log('Public Key : ',pkcs8Simpl.publicKey);
      //#endregion
      //#region Put initial values for PKCS#12 structures
      const pkcs12 = new pkijs.PFX({
@@ -52,7 +56,7 @@ async function generateCertificatePFX(key,cert,pwd){
                  parsedValue: {
                      safeContents: [
                          {
-                             privacyMode: 2,
+                             privacyMode: 0,
                              value: new pkijs.SafeContents({
                                  safeBags: [
                                      new pkijs.SafeBag({
@@ -78,14 +82,27 @@ async function generateCertificatePFX(key,cert,pwd){
      if (!(pkcs12.parsedValue && pkcs12.parsedValue.authenticatedSafe)) {
          throw new Error("pkcs12.parsedValue.authenticatedSafe is empty");
      }
+    //  await pkcs12.parsedValue.authenticatedSafe.makeInternalValues({
+    //      safeContents: [
+    //          {
+    //             //  encryptingCertificate: certSimpl,
+    //              password: pvutils.stringToArrayBuffer(password),
+    //              contentEncryptionAlgorithm: {
+    //                  name: "AES-CBC",
+    //                  length: 128
+    //              },
+    //             //  Added - Start
+    //             hmacHashAlgorithm: "SHA-256",
+    //             iterationCount: 2048
+    //             // Added - End
+    //          }
+    //      ]
+    //  });
+
      await pkcs12.parsedValue.authenticatedSafe.makeInternalValues({
          safeContents: [
              {
-                 encryptingCertificate: certSimpl,
-                 encryptionAlgorithm: {
-                     name: "AES-CBC",
-                     length: 128
-                 }
+                // Empty parameters since we have "No Privacy" protection level for SafeContents
              }
          ]
      });
@@ -97,6 +114,7 @@ async function generateCertificatePFX(key,cert,pwd){
          pbkdf2HashAlgorithm: "SHA-256",
          hmacHashAlgorithm: "SHA-256"
      });
+
      //#endregion
      //#region Save encoded data
      //  console.log(pkcs12.toString())
