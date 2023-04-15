@@ -82,23 +82,7 @@ async function generateCertificatePFX(key,cert,pwd){
      if (!(pkcs12.parsedValue && pkcs12.parsedValue.authenticatedSafe)) {
          throw new Error("pkcs12.parsedValue.authenticatedSafe is empty");
      }
-    //  await pkcs12.parsedValue.authenticatedSafe.makeInternalValues({
-    //      safeContents: [
-    //          {
-    //             //  encryptingCertificate: certSimpl,
-    //              password: pvutils.stringToArrayBuffer(password),
-    //              contentEncryptionAlgorithm: {
-    //                  name: "AES-CBC",
-    //                  length: 128
-    //              },
-    //             //  Added - Start
-    //             hmacHashAlgorithm: "SHA-256",
-    //             iterationCount: 2048
-    //             // Added - End
-    //          }
-    //      ]
-    //  });
-
+    
      await pkcs12.parsedValue.authenticatedSafe.makeInternalValues({
          safeContents: [
              {
